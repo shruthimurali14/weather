@@ -91,7 +91,7 @@ function weatherDetails() {
     var alert = document.getElementById('alert');
     var span = document.getElementsByClassName("alert-close")[0];
 
-    var url = " http://localhost:8000/api/get-weather-for-week/";
+    var url = "http://35.193.237.164:8000/api/get-weather-for-week/";
     var startDate = new Date().toISOString().slice(0,10);
     var time= new Date().getTime()-(7 * 24 * 60 * 60 * 1000);
     var endDate = new Date(time).toISOString().slice(0,10);
