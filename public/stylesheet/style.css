@@ -195,7 +195,6 @@ body {
 }
 
 /*Alert Box CSS*/
-
     .alert-box {
         display: none;
         position: fixed;
@@ -214,9 +213,8 @@ body {
         background-image: url("../images/header.jpg");
         color: white;
         margin: auto;
-        margin-top: 20px;
-        width: 30%;
-        height: 50%;
+        width: 300px;
+        height: 150px;
     }
 
     .alert-close {
@@ -234,7 +232,6 @@ body {
     }
 
     /*TIMELINE CSS STARTS HERE*/
-
     /* The actual timeline (the vertical ruler) */
     .timeline {
       position: relative;
@@ -258,7 +255,7 @@ body {
       padding: 10px 40px;
       position: relative;
       background-color: transparent;
-      width: 30%;
+        width: 30%;
     }
 
     /* The circles on the timeline */
@@ -278,6 +275,7 @@ body {
     /* Place the container to the left */
     .left {
       left: 20%;
+
     }
 
     /* Place the container to the right */
@@ -294,9 +292,9 @@ body {
       width: 0;
       z-index: 1;
       right: 30px;
-      border: medium solid white;
+      border: medium solid #1A5276;
       border-width: 10px 0 10px 10px;
-      border-color: transparent transparent transparent white;
+      border-color: transparent transparent transparent #1A5276;
     }
 
     /* Add arrows to the right container (pointing left) */
@@ -308,22 +306,29 @@ body {
       width: 0;
       z-index: 1;
       left: 30px;
-      border: medium solid white;
+      border: medium solid #1A5276;
       border-width: 10px 10px 10px 0;
-      border-color: transparent white transparent transparent;
+      border-color: transparent #1A5276 transparent transparent;
     }
 
     /* Fix the circle for containers on the right side */
     .right::after {
-      left: -16px;
+        left: -16px;
+        border: 4px solid #1A5276;
+
     }
 
     /* The actual content */
     .content {
-      padding: 10px 15px;
-      background-color: white;
+      padding: 0px 5px;
+      /*background-color: white;*/
+        background-image: url("../images/header.jpg");
+        color: white;
       position: relative;
+        border: 2px solid #1A5276;
       border-radius: 6px;
+        width: auto;
+        height: auto;
     }
 
     /* Media queries - Responsive timeline on screens less than 600px wide */
@@ -343,7 +348,7 @@ body {
     /* Make sure that all arrows are pointing leftwards */
       .container::before {
         left: 60px;
-        border: medium solid white;
+        border: medium solid #1A5276;
         border-width: 10px 10px 10px 0;
         border-color: transparent white transparent transparent;
       }
@@ -359,10 +364,6 @@ body {
       }
     }
 
-#display-weather-details{
-
-    text-align: center;
-}
 
 /*Footer CSS*/
     footer{

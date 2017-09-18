@@ -4,6 +4,7 @@ var lat;
 var lng;
 var zipcode;
 
+
 //Function to get lat and lng value for a given function
 function initialize() {
 
@@ -20,9 +21,27 @@ function initialize() {
     google.maps.event.addListener(autocomplete, 'place_changed',
         function() {
             var place = autocomplete.getPlace();
-             lat = place.geometry.location.lat();
-             lng = place.geometry.location.lng();
+            var alert = document.getElementById('alert');
+            var span = document.getElementsByClassName("alert-close")[0];
+            if(!place.geometry)
+            {
+                document.getElementById('loader').style.display='none';
+                document.getElementById("content").innerHTML='<h3 style="color: white">Please enter a location</h3>';
+                alert.style.display = "block";
+                span.onclick = function() {
+                    alert.style.display = "none";
+                }
+                window.onclick = function(event) {
+                    if (event.target == alert) {
+                        alert.style.display = "none";
+                    }
+                }
+                return true;
+            }
+            lat = place.geometry.location.lat();
+            lng = place.geometry.location.lng();
             geocodeLatLng(geocoder);
+
         }
     );
 }
@@ -64,9 +83,20 @@ function weatherDetails() {
     document.getElementById('display-weather-details').style.display='none';
     document.getElementById('footer').style.position='fixed';
 
-    if(location == "")
+    var location = document.getElementById('location').value;
+    console.log(location);
+
+    var place = autocomplete.getPlace();
+
+
+    var alert = document.getElementById('alert');
+    var span = document.getElementsByClassName("alert-close")[0];
+
+
+    if(location == "" || !place)
     {
-        document.getElementById("content").innerHTML='<h3 style="color: white">Please enter a location</h3>';
+        document.getElementById('loader').style.display='none';
+        document.getElementById("content").innerHTML='<h3 style="color: white">Please enter a valid location</h3>';
         alert.style.display = "block";
         span.onclick = function() {
             alert.style.display = "none";
@@ -78,8 +108,8 @@ function weatherDetails() {
         }
         return true;
     }
+
     var country;
-    var place = autocomplete.getPlace();
     for (var i = 0; i < place.address_components.length; i++) {
         var addressType = place.address_components[i].types[0];
         // for the country, get the country code (the "short name") also
@@ -88,8 +118,6 @@ function weatherDetails() {
         }
     }
 
-    var alert = document.getElementById('alert');
-    var span = document.getElementsByClassName("alert-close")[0];
 
     var url = "http://35.193.237.164:8000/api/get-weather-for-week/";
     var startDate = new Date().toISOString().slice(0,10);
