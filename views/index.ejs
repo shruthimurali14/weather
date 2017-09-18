@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Weather Report - Arcus Global Assignment</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+    <script src="javascript/weather.js"></script>
+    <link rel="stylesheet" href="stylesheet/style.css">
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDY8OxPtQsKu6DXt_bxxv71D5PGJo159Hs&libraries=places&callback=initialize" async defer></script>
+
+</head>
+
+<body>
+    <div class="header">
+            <a href="#" class="brand">
+                <img src="images/weather.gif" alt="" class="logo">
+                <div class="logo-type">
+                    <h1 class="title">Weather Report</h1>
+                    <small class="description">Past Weeks weather data</small>
+                </div>
+            </a>
+        <div class="search">
+            <div class="container">
+                <div class="row">
+                    <div class="input-group input-group-lg" >
+                        <input type="text" class="form-control" id="location" placeholder="Please input location details..." required>
+                        <span class="input-group-btn">
+                            <button class="btn btn-info" id="go" type="button" onclick="weatherDetails()">Go!</button>
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div> <!-- .header -->
+
+      <div id="loader" style="display: none"></div>
+
+    <div id="alert" class="alert-box">
+        <div class="alert-content">
+            <span class="alert-close" style="color: white">&times;</span>
+            <p id="content" class="jumbotron text-center"></p>
+        </div>
+    </div>
+
+
+
+
+      <div id="display-weather-details" style="display: none" class="timeline">
+      </div>
+
+      <footer id="footer" style="position: fixed">
+        <p> Assignment by Shruthi Murali </p>
+      </footer>
+
+    </body>
+</html>
+
