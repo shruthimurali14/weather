@@ -83,17 +83,13 @@ function weatherDetails() {
     document.getElementById('display-weather-details').style.display='none';
     document.getElementById('footer').style.position='fixed';
 
-    var location = document.getElementById('location').value;
-    console.log(location);
-
-    var place = autocomplete.getPlace();
-
-
     var alert = document.getElementById('alert');
     var span = document.getElementsByClassName("alert-close")[0];
 
+    var location = document.getElementById('location').value;
+    // console.log(location);
 
-    if(location == "" || !place)
+    if(autocomplete == null)
     {
         document.getElementById('loader').style.display='none';
         document.getElementById("content").innerHTML='<h3 style="color: white">Please enter a valid location</h3>';
@@ -109,31 +105,48 @@ function weatherDetails() {
         return true;
     }
 
-    var country;
-    for (var i = 0; i < place.address_components.length; i++) {
-        var addressType = place.address_components[i].types[0];
-        // for the country, get the country code (the "short name") also
-        if (addressType == "country") {
-            country = place.address_components[i].short_name;
+    var place = autocomplete.getPlace();
+
+        if(location == "" || !place)
+        {
+            document.getElementById('loader').style.display='none';
+            document.getElementById("content").innerHTML='<h3 style="color: white">Please enter a valid location</h3>';
+            alert.style.display = "block";
+            span.onclick = function() {
+                alert.style.display = "none";
+            }
+            window.onclick = function(event) {
+                if (event.target == alert) {
+                    alert.style.display = "none";
+                }
+            }
+            return true;
         }
-    }
 
-
-    var url = "http://35.193.237.164:8000/api/get-weather-for-week/";
-    var startDate = new Date().toISOString().slice(0,10);
-    var time= new Date().getTime()-(7 * 24 * 60 * 60 * 1000);
-    var endDate = new Date(time).toISOString().slice(0,10);
-
-    $.ajax({
-        url: url,
-        type: "GET",
-        crossDomain: true,
-        dataType: "json",
-        data:{zipcode:zipcode,country:country,startDate:startDate,endDate:endDate},
-        success: function (response) {
-            renderHtml(response);
+        var country;
+        for (var i = 0; i < place.address_components.length; i++) {
+            var addressType = place.address_components[i].types[0];
+            // for the country, get the country code (the "short name") also
+            if (addressType == "country") {
+                country = place.address_components[i].short_name;
+            }
         }
-    });
+        var url = "http://35.193.237.164:8000/api/get-weather-for-week/";
+        // var url = "http://localhost:8000/api/get-weather-for-week/";
+        var startDate = new Date().toISOString().slice(0,10);
+        var time= new Date().getTime()-(7 * 24 * 60 * 60 * 1000);
+        var endDate = new Date(time).toISOString().slice(0,10);
+
+        $.ajax({
+            url: url,
+            type: "GET",
+            crossDomain: true,
+            dataType: "json",
+            data:{zipcode:zipcode,country:country,startDate:startDate,endDate:endDate},
+            success: function (response) {
+                renderHtml(response);
+            }
+        });
 }
 
 function renderHtml(response) {
@@ -153,8 +166,8 @@ function renderHtml(response) {
             html = html + " <div class=\"container-timeline left\">\n" +
                 "         <div class=\"content\">\n" +
                 "        <i><h3>"+date+"</h3></i>\n" +
-                "         <h4>Min Temp: "+minTemp +"</h4>\n" +
-                "         <h4>Max Temp: "+maxTemp +"</h4>\n" +
+                "         <h4>Min Temp: "+minTemp +"<sup>o</sup>F</h4>\n" +
+                "         <h4>Max Temp: "+maxTemp +"<sup>o</sup>F</h4>\n" +
                 "     </div>\n" +
                 "     </div>\n";
         }
@@ -163,8 +176,8 @@ function renderHtml(response) {
               html = html + " <div class=\"container-timeline right\">\n" +
                 "         <div class=\"content\">\n" +
                 "        <i><h3>"+date+"</h3></i>\n" +
-                "         <h4>Min Temp: "+minTemp +"</h4>\n" +
-                "         <h4>Max Temp: "+maxTemp +"</h4>\n" +
+                "         <h4>Min Temp: "+minTemp +"<sup>o</sup>F</h4>\n" +
+                "         <h4>Max Temp: "+maxTemp +"<sup>o</sup>F</h4>\n" +
                 "     </div>\n" +
                 "     </div>\n";
 
@@ -174,5 +187,20 @@ function renderHtml(response) {
     document.getElementById('display-weather-details').innerHTML = html;
     document.getElementById('display-weather-details').style.display='block';
     document.getElementById('footer').style.position='relative';
+    resetValues();
+
+}
+
+function resetValues() {
+
+    var input = document.getElementById('location');
+    input.value = "";
+    var options = {
+        types: ['(cities)']
+    };
+    autocomplete = new google.maps.places.Autocomplete(input,options);
+    autocomplete.setComponentRestrictions(
+        {'country': ['us']});
+
 
 }
